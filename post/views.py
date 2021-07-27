@@ -17,14 +17,11 @@ def PostLike(request, pk):
     else:
 
         liked = LikeNotification.objects.create(
-
-
             liked=request.user,
             post=post
         )
 
         Notification.objects.create(
-
             receiver=post.author,
             delete_like=liked.id,
             liked=liked
@@ -91,52 +88,6 @@ def post(request):
     return render(request, 'generic_form.html', {'form': form, 'count': count})
 
 
-# def comment(request, post_id):
-#     # def commentNotification(reciever):
-#     #     Notification.objects.create(
-#     #         comment=new_comment,
-#     #         receiver=reciever,
-#     #         delete_comment=new_comment.id
-#     #     )
-#     if request.method == 'POST':
-#         form = PostForm(request.POST)
-
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             post = Post.objects.get(id=post_id)
-#             at = re.findall(r'@([\w]+)', data.get("text"))
-
-#             new_comment = Comment.objects.create(
-#                 replied_to=post,
-#                 comment=data['text'],
-#                 author=request.user
-#             )
-
-    # post.commenters.add(request.user)
-
-    # for user in post.commenters.all():
-    #     if user != request.user:
-
-    #         commentNotification(user)
-
-    # if at:
-    #     for a in at:
-    #         user = UserModel.objects.filter(username=a)
-    #         if not user:
-    #             pass
-    #         else:
-
-    #             reciever = UserModel.objects.get(username=a)
-    #             if request.user != reciever:
-
-    #                 commentNotification(reciever)
-
-    #     return HttpResponseRedirect(reverse('homepage'))
-
-    # form = PostForm()
-
-    # return render(request, 'generic_form.html', {'form': form})
-
 @login_required
 def index(request):
     filt_post = Post.objects.filter(author=request.user)
@@ -158,14 +109,6 @@ def index(request):
             'following_post': following_post,
             'filt_post': filt_post
         })
-
-# def home_post(request):
-#     post = Post.objects.all().order_by('-created_at')
-#     comment = Comment.objects.all().order_by('-created_at')
-#     count = len(
-#     [notified for notified in Notification.objects.filter(
-#         receiver__id=request.user.id)])
-#     return render(request, 'index.html', {'post': post, 'comment': comment, 'count': count})
 
 
 def PostDetailView(request, post_id):
@@ -225,13 +168,12 @@ def Test_view(request):
 
 
 def delete_post(request, pk):
-    post = get_object_or_404(Post, id=pk).delete()
-
+    get_object_or_404(Post, id=pk).delete()
     return redirect(request.META.get('HTTP_REFERER',
                                      'redirect_if_referer_not_found'))
 
 
 def delete_comments(request, pk):
-    comment = get_object_or_404(Comment, id=pk).delete()
+    get_object_or_404(Comment, id=pk).delete()
     return redirect(request.META.get('HTTP_REFERER',
                                      'redirect_if_referer_not_found'))

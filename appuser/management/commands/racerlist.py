@@ -1,7 +1,6 @@
-from authentication.views import get_drivers
 from django.core.management.base import BaseCommand
 
-from raceapi.views import get_standings_request
+from raceapi.views import get_standings_request, get_drivers
 
 
 class Command(BaseCommand):

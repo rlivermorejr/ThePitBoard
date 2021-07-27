@@ -4,10 +4,10 @@ from django.urls import reverse
 from django.contrib.auth import login, authenticate, logout
 from django.views.generic import View
 from django.contrib import messages
+
 from post.models import Post, Comment
-import requests
 from authentication.forms import CreateUserForm, LoginForm
-from appuser.models import RacerList, UserModel
+from appuser.models import UserModel
 
 
 class CreateUser(View):
@@ -67,21 +67,3 @@ class LoginUser(View):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse('homepage'))
-
-
-def get_drivers():
-    url = 'http://ergast.com/api/f1/current/2/drivers.json'
-    response = requests.get(url)
-    data = response.json()
-    i = 0
-
-    RacerList.objects.all().delete()
-    while i <= 19:
-        drivers = (data['MRData']['DriverTable']['Drivers'][i]
-                   )
-        driver_data = RacerList(
-            id=i,
-            full_name=drivers['givenName'] + " " + drivers['familyName']
-        )
-        driver_data.save()
-        i += 1
