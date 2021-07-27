@@ -1,0 +1,60 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="notify-container shadow-lg w-50 p-3 mb-3 bg-white rounded">
+    {% if notification %}
+    {% for foo in notification %}
+
+    {% if foo.text %}
+    <div class="notify-item">
+      From<a href="/profile/{{foo.author.id}}"> {{foo.author}} </a>
+      message: {{foo.update}}
+      <a href="/post/{{foo.id}}/">{{foo.text}}</a>
+    </div>
+    <a class="del-button" href="/delete_notifications/{{foo.id}}/"><button>delete</button></a>
+    <hr />
+    {% endif %}
+
+    {% if foo.message %}
+    <div class="notify-item">
+      <a href="/profile/{{foo.user_id}}/">@{{foo.message}}</a> follows you
+    </div>
+    <a class="del-button" href="/delete_follow/{{foo.id}}/"><button>delete</button></a>
+    <hr />
+    {% endif %}
+
+    {% if foo.update %}
+    <div class="notify-item">
+      {{foo.update}}
+    </div>
+    <a class="del-button" href="/delete_update/{{foo.id}}/"><button>delete</button></a>
+    <hr />
+    {% endif %}
+
+    {% if foo.comment %}
+    <div class="notify-item">
+      <a href="/profile{{foo.author.id}}/">{{foo.author}}</a> sent <a href="/post/{{foo.post.id}}/">{{foo.comment}} </a>
+    </div>
+    <a class="del-button" href="/delete_comment/{{foo.id}}/"><button>delete</button></a>
+    <hr />
+    {% endif %}
+
+    {% if foo.liked %}
+    <div class="notify-item">
+      {% if foo.liked == request.user %}
+      you liked your post
+
+      {% else %}
+
+      <a href="/profile/{{foo.liked.id}}" />{{foo.liked}} </a> just <a href="/post/{{post.id}}/">liked your post </a>
+
+      {% endif %}
+    </div>
+    <a class="del-button" href="/delete_like/{{foo.id}}/"><button>delete</button></a>
+    <hr />
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="shadow w-50 pt-3 mb-4 bg-white rounded text-center">
+    {% if locked %}
+    <p> Your Driver Selections Have been Set </p>
+
+    {% else %}
+    <p> choose your drivers before saturday 11:59 pm</p>
+    {% endif %}
+  </div>
+</div>
+<div class="d-flex justify-content-center">
+  <div class="shadow-lg w-100 pt-3 pb-3 m-4 bg-white rounded text-center">
+    <div class="container-flex">
+      <hr />
+      {% for driver in all_drivers %}
+      <div class="item-flex">
+        <strong class="text-center">
+          <p>{{ driver.full_name }}</p>
+        </strong>
+        <div>
+          <strong>Date of Birth: </strong> {{ driver.dob }}</br>
+          <strong>Nationality: </strong> {{ driver.nationality }}</br>
+          <strong>Driver Code: </strong> {{ driver.code }}</br>
+          <strong>Driver Number: </strong> {{ driver.permanent_number }}</br>
+          <strong>Driver Position: </strong> {{ driver.position }}</br>
+          <strong>Driver Point: </strong> {{ driver.points }}</br>
+          <strong>Driver Wins: </strong> {{ driver.wins }}</br>
+          <strong>Driver Team: </strong> {{ driver.constructor_name }}</br>
+          {% if locked %}
+          {% else %}
+          {% if driver.full_name in racerList %}
+
+          <a href="/standings/{{driver.id}}/remove_driver/">
+            <button>remove</button>
+          </a>
+          {% elif racerList|length < 5 %} <a href="/standings/{{driver.id}}/add_driver/">
+            <button>add</button>
+            </a>
+            {% endif %}
+            {% endif %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

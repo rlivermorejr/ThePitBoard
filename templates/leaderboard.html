@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+{% block content %}
+{% load static %}
+
+<h1 class="text-center">Fantasy-1 Leaderboard</h1>
+<div class="shadow mx-auto w-75 pt-4 bg-white rounded">
+  <ol>
+    {% for user in all_users %}
+    <li class="text-left">
+      <a href="/profile/{{user.id}}/">{{ user.username }}</a>
+      {% if user.pitboss %}
+      <img height="50px" width="60px" src="{% static 'images/badge.png' %}" />
+      {% endif %}
+
+      {% if user.badge %}
+      <img src="{% static 'images/streakbadge1.png' %}" />
+      {% endif %}
+      <br />
+      Points: {{ user.points }}
+      <br />
+      Selected Drivers:
+      <ul>
+        {% if not user.racer.all %}
+        <li>None selected!</li>
+        {% endif %}
+        {% for list in user.racer.all %}
+        <li>{{list}}</li>
+        {% endfor %}
+      </ul>
+    </li>
+    <hr />
+    </br>
+    {% endfor %}
+  </ol>
+</div>
+
+{% endblock %}

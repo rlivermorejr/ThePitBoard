@@ -1,0 +1,13 @@
+{% extends "index.html" %}
+{% block content %}
+
+<section class="d-flex justify-content-center">
+  {% for foo in follow %}
+  <div class="shadow p-4 mb-4 bg-white w-50 text-center">
+    <img src="{{ foo.profile_image.url }}" height="50" width="50" class="rounded-circle">
+    <a href="/profile/{{foo.id}}">{{foo.username}}</a>
+  </div>
+  {% endfor %}
+</section>
+
+{% endblock content %}

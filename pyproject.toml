@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "thepitboard"
+version = "0.1.0"
+description = ""
+authors = ["rlivermorejr <rlivermorejr@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.5"
+django-environ = "^0.4.5"
+django-crontab = "^0.7.1"
+django-resized = "^0.3.11"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.5.7"
+Pillow = "^8.3.1"
+flake8 = "^3.9.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

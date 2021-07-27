@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{% block content %}
+
+<section class="d-flex justify-content-center">
+  {% if not drivers %}
+  <div class="shadow p-4 mb-4 bg-white w-50 text-center">
+    <a href="/standings/">User has not selected any drivers</a>
+  </div>
+  {% endif %}
+  {% for driver in drivers %}
+  <div class="shadow p-4 mb-4 bg-white w-50 text-center">
+    <a href="/standing/">{{driver}}</a>
+  </div>
+  {% endfor %}
+</section>
+{% endblock content %}

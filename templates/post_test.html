@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_authenticated %}
+{% for posts in post %}
+<div class="d-flex justify-content-center">
+  <div class="shadow-lg w-50 p-3 mb-3 bg-white rounded">
+    <a href="/profile/{{ posts.author.id }}"><img src="{{ posts.author.profile_image.url }}" width="50" height="50"
+        class="rounded-circle"></a>
+    {% if posts.author.pitboss %}
+    <img height="40px" width="40px" src="{% static 'images/badge.png' %}" />
+    {% endif %}
+
+    {% if posts.author.badge %}
+    <img height="40px" width="60px" src="{% static 'images/streakbadge1.png' %}" />
+    {% endif %}
+    <p><a href="/profile/{{ posts.author.id }}">{{ posts.author }}</a> says:</p>
+    <p>{{ posts.text }}</p>
+    {% if posts.post_image %}
+    <p><img style="border: solid 2px; max-width: 100%; max-height: 100%;" src="{{ posts.post_image.url }}"></p>
+    {% endif %}
+    {% if posts.post_content %}
+    <p><img style="border: solid 2px; max-width: 100%; max-height: 100%;" src="{{ posts.post_content.url }}"></p>
+    {% endif %}
+    <p class="time">{{ posts.created_at}}</p>
+    <p>Likes: {{ posts.likes.count }}</p>
+
+    <br />
+
+
+    <div class="buttons">
+
+      {% if posts.liked %}
+      <a href="/like/{{posts.id}}"><button class="btn-xs">Dislike</button></a> |
+      {% else %}
+      <a href="/like/{{posts.id}}"><button class="btn-xs">Like</button></a> |
+      {% endif %}
+
+      {% if request.user == posts.author %}
+
+      <a href="/delete_post/{{posts.id}}/"><button>delete</button></a>
+      {% endif %}
+
+
+    </div>
+
+
+    <details>
+      <summary>Comments {{posts.comments.all.count}}</summary>
+      <form action="/test/" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="post_id" value="{{posts.id}}" />
+        <input type="text" name="comment" />
+        <input type="submit" value="Submit" />
+      </form>
+      {% for comment in posts.comments.all %}
+      <div class="comments" style="margin-left: 50px; border: 1px solid black; width: 30vw">
+        <a href="/profile/{{ comment.author.id }}"><img src="{{ comment.author.profile_image.url }}" width="50"
+            height="50" class="rounded-circle"></a>
+        <p><a href="/profile/{{ comment.author.id }}">{{ comment.author }}</a> Replied:</p>
+        <p>{{ comment.comment }}</p>
+        <p>{{ comment.created_at}}</p>
+        <p> Likes: {{ comment.likes.count }} </p>
+
+        {% if comment.liked %}
+        <a href="/like/{{comment.id}}/comment"><button class="btn-xs">Dislike</button></a>
+        {% else %}
+        <a href="/like/{{comment.id}}/comment"><button class="btn-xs">Like</button></a>
+        {% endif %}
+        {% if request.user == comment.author %}
+        <a href="/delete_comments/{{comment.id}}/"><button>delete</button></a>
+        {% endif %}
+      </div>
+
+      {% endfor %}
+    </details>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock content %}

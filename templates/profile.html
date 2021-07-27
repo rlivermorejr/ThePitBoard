@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<section class='container'>
+  <div class="d-flex justify-content-center">
+
+    <div class='text-left shadow p-4 mb-4 bg-white w-50'>
+      <div class="container">
+        <img src="{{ account.profile_image.url }}" height="100" width="100" class="rounded-circle">
+
+        {% if account.pitboss %}
+        <img height="60px" width="60px" src="{% static 'images/badge.png' %}" />
+        {% endif %}
+
+        {% if account.badge %}
+        <img src="{% static 'images/streakbadge1.png' %}" />
+        {% endif %}
+      </div>
+      <h3>Name</h3>
+      {{ account.username }}
+      </br>
+      <h3>BIO:</h3>
+      {{account.bio}}
+      <h4>Points:</h4>
+      {{account.points}}
+      </br>
+      <h3>Following:</h3>
+      <a href="/profile/{{account.id}}/following/">{{account.following.count}}</a>
+      <br>
+      <h3>Followers:</h3>
+      <a href="/profile/{{account.id}}/followers/">{{account.followers.count}}</a>
+      <br>
+      <a href="/profile/{{account.id}}/racers/">
+        <h3>Racers</h3>
+      </a>
+      <br>
+      {% if account.display_name == request.user.display_name %}
+      <a href='/profile/{{account.id}}/edit/'>Edit Profile</a>
+      {% endif %}
+      </br>
+      <hr>
+      {% if request.user.is_authenticated %}
+      <div class="d-flex inline p-2">
+        <a href='/profile/{{account.id}}/follow/'><button class="btn-xs">Follow</button></a>
+        </br>
+        <a href='/profile/{{account.id}}/unfollow/'><button class="btn-xs">Unfollow</button></a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+</br>
+{% endblock content %}
